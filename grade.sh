@@ -5,7 +5,7 @@ rm -rf grading-area
 
 mkdir grading-area
 
-git clone $1 student-submission
+git clone $1 student-submission > grading-area/temp.txt
 echo 'Finished cloning'
 
 # Check that the student submission contains the correct file.
@@ -26,9 +26,20 @@ cp -r lib grading-area
 cd grading-area
 
 # Compile code
-javac ListExamples.java
 javac -cp $CPATH *.java
+
+if [ $? -ne 0 ]
+then
+    echo "Your code does not compile!"
+    exit
+else
+    echo "Student code compiled successfully."
+fi 
+
 java -cp $CPATH org.junit.runner.JUnitCore TestListExamples
+
+
+
 
 # Draw a picture/take notes on the directory structure that's set up after
 # getting to this point
