@@ -1,4 +1,4 @@
-CPATH='.;lib/hamcrest-core-1.3.jar;lib/junit-4.13.2.jar'
+CPATH='.:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar'
 
 rm -rf student-submission
 rm -rf grading-area
@@ -36,8 +36,16 @@ else
     echo "Student code compiled successfully."
 fi 
 
-java -cp $CPATH org.junit.runner.JUnitCore TestListExamples
+java -cp $CPATH org.junit.runner.JUnitCore TestListExamples > testerOutput.txt
 
+tail -2 testerOutput.txt > testScores.txt
+
+cut -d ' ' -f 1 testScores.txt > passCheck.txt
+
+if [[ -n $(grep "OK" passCheck.txt) ]]
+then
+    echo "All tests passed!"
+fi
 
 
 
